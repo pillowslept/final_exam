@@ -27,6 +27,5 @@ END;
 
 CREATE TABLE masks (
     mask varchar2(1000) not null,
-    result varchar2(4000) not null,
-    fullname varchar(255) not null
+    result varchar2(4000) not null
 );
