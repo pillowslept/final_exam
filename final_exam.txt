@@ -29,3 +29,15 @@ CREATE TABLE masks (
     mask varchar2(1000) not null,
     result varchar2(4000) not null
 );
+
+--TRIGGER
+
+CREATE OR REPLACE TRIGGER exec_mask_function 
+  before insert ON masks FOR EACH ROW 
+  
+BEGIN
+  
+  select mask_function(:NEW.mask) into :new.result from dual;
+  
+  DBMS_OUTPUT.PUT_LINE('Ejecutando TRIGGER, MASK: ' || :NEW.mask|| ', RESULT: ' || :NEW.result);
+END;
