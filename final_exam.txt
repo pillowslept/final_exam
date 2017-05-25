@@ -1,0 +1,24 @@
+--FUNCTION
+
+CREATE OR REPLACE FUNCTION mask_function(s in varchar2)
+RETURN varchar IS
+   rpta varchar(10000) := '';
+BEGIN
+  --Si el valor no se encuentra en el rango, se levanta la exception
+  if s is null or LENGTH(s) < 1 OR LENGTH(s) > 10000 then
+    Raise_Application_Error (-20343, 'The value must be in the range of 1<= s <= 10000');
+  end if;
+  
+  --Se recorre por por los digitos posibles
+  FOR i IN 0..9 LOOP
+    --Se saca el MOD del string reemplazando por cada valor de la iteración
+    if MOD(REPLACE(s,'*',i), 6) = 0 then
+         rpta := rpta || REPLACE(s,'*',i) || ',';
+    end if;
+         
+   END loop;
+  
+  rpta := SUBSTR(rpta, 1, LENGTH(rpta) - 1);
+  
+   RETURN rpta;
+END;
